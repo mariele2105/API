@@ -1,38 +1,15 @@
-const tarefas = [];
+const mongoose = require("mongoose");
 
-const listar = () => {
-  return tarefas;
-};
-
-const criar = (dados) => {
-  const novaTarefa = {
-    ...dados,
-    id: tarefas.length + 1,
-  };
-  tarefas.push(novaTarefa);
-  return novaTarefa;
-};
-
-const obter = (id) => {
-  const tarefaEncontrada = tarefas.find((item) => item.id === parseInt(id));
-  return tarefaEncontrada;
-};
-
-const atualizar = (tarefa) => {
-  const tarefaEncontrada = tarefas.find((item) => item.id == tarefa.id);
-  if (tarefaEncontrada) {
-    tarefaEncontrada.nome = tarefa.nome;
-    tarefaEncontrada.concluida = tarefa.concluida;
+const schema = new mongoose.Schema({
+  nome: {
+    type: String,
+    required: [true, "Nome da tarefa é obrigatório"],
+    trim: true
+  },
+  concluida: {
+    type: Boolean,
+    default: false
   }
-  return tarefaEncontrada;
-};
+});
 
-const remover = (id) => {
-  const posicao = tarefas.findIndex((item) => item.id == id);
-  if (posicao >= 0) {
-    tarefas.splice(posicao, 1);
-}
-return posicao;
-};
-
-module.exports = { listar, criar, obter, atualizar, remover };
+module.exports = mongoose.model("Tarefa", schema);
