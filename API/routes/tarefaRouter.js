@@ -1,18 +1,13 @@
 const express = require("express");
-const controller = require("../controllers/tarefasController");
-
+const controller = require("../controllers/tarefaController");
+const autenticar = require("../middleware/auth");
 const router = express.Router();
 
-router.get("/", controller.listarTarefas);
+router.get("/", controller.listar);
+router.get("/:id", controller.obter);
 
-router.post("/", controller.criarTarefa);
+router.post("/", autenticar, controller.criar);
+router.put("/:id", autenticar, controller.atualizar);
+router.delete("/:id", autenticar, controller.remover);
 
-router.get("/:id", controller.buscarTarefa, controller.obterTarefa);
-
-router.put("/:id", controller.buscarTarefa, controller.atualizarTarefa);
-
-router.delete("/:id", controller.buscarTarefa, controller.removerTarefa);
-
-module.exports = router;  
-
-
+module.exports = router;
